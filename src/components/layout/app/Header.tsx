@@ -1,4 +1,5 @@
 import { LogOutIcon } from "lucide-react";
+import { Button } from "../../ui/Button";
 
 export function Header() {
     return (
@@ -13,9 +14,12 @@ export function Header() {
                     <p className="text-sm font-semibold truncate max-w-32">
                         Victor Martins 
                     </p>
-                    <button className="px-1.5 py-1.5 cursor-pointer">
-                        <LogOutIcon size={20} />
-                    </button>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                    >
+                        <LogOutIcon size={18} />
+                    </Button>
                 </div>
             </div>
         </header>
