@@ -1,22 +1,36 @@
 import { PlusIcon } from "lucide-react";
 import { Button } from "../../components/ui/Button";
-import { Filter } from "./components/Filter";
+import { WalletsPageFilter } from "./components/Filter";
 import { WalletsTable } from "./components/Table";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUsers } from "../../utils/services/user";
 import { useState } from "react";
+import { useFormik } from "formik";
+import { filterInitialValues, filterValidationSchema } from "../../utils/forms/user";
 
 export function ListWalletsPage() {
     const [pageIndex, setPageIndex] = useState(1);
+    const [filterFormValues, setFilterFormValues] = useState(filterInitialValues);
+
+    const filterForm = useFormik({
+        initialValues: filterInitialValues,
+        validationSchema: filterValidationSchema,
+        onSubmit: (values) => {
+            setFilterFormValues(values);
+            setPageIndex(1);
+        },
+    });
+
     const userQuery = useQuery({
-        queryKey: ["users", pageIndex],
-        queryFn: () => fetchUsers({}, pageIndex),
+        queryKey: ["users", filterFormValues, pageIndex],
+        queryFn: () => fetchUsers(filterFormValues, pageIndex),
         placeholderData: (prev) => prev,
     });
 
-    if(userQuery.error) {
+    if (userQuery.error) {
         console.log(userQuery.error);
     }
+
 
     function handleAddNewWallet() {
         console.log("Adicionar nova carteira");
@@ -37,7 +51,7 @@ export function ListWalletsPage() {
                     <PlusIcon className="block md:hidden" />
                 </Button>
             </div>
-            <Filter />
+            <WalletsPageFilter formik={filterForm} />
             <div className="bg-white rounded-sm shadow-lg">
                 <div className="flex justify-between items-center mb-6 px-5 pt-5">
                     <h3 className="text-lg font-bold">Carteiras</h3>
