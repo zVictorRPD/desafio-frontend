@@ -11,6 +11,7 @@ export function ListWalletsPage() {
     const userQuery = useQuery({
         queryKey: ["users", pageIndex],
         queryFn: () => fetchUsers({}, pageIndex),
+        placeholderData: (prev) => prev,
     });
 
     if(userQuery.error) {
