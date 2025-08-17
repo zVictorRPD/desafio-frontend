@@ -4,7 +4,7 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
     isLoading?: boolean;
-    variant?: "primary" | "danger" | "primary-outline" | "danger-outline" | "primary-ghost" | "ghost";
+    variant?: "primary" | "danger" | "primary-outline" | "danger-outline" | "primary-ghost" | "ghost" | "ghost-outline";
     icon?: ReactNode;
     size?: "default" | "icon";
 }
@@ -16,6 +16,7 @@ const variantClasses = {
     "danger-outline": "border border-danger text-danger hover:bg-danger hover:text-white",
     "primary-ghost": "bg-transparent border border-transparent text-primary",
     "ghost": "bg-transparent border border-transparent",
+    "ghost-outline": "bg-transparent border border-neutral-300 text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900"
 }
 
 const sizesClasses = {
@@ -30,7 +31,7 @@ export function Button({ children, isLoading = false, variant = "primary", size 
         <button
             {...props}
             className={`${props.className ? props.className : ""} ${variantClasses[variant]} ${defaultStyles} ${sizesClasses[size]}`}
-            disabled={isLoading}
+            disabled={isLoading || props.disabled}
         >
             {!isLoading ? icon : <Loader2Icon className="animate-spin" />}
             {children}
