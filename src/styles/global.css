@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
-body {
-    font-family: "source-sans-pro", sans-serif;
+@theme {
+    --color-primary: #007BFF;
+    --color-danger: #E22849;
+}
+
+@layer base {
+    body {
+        font-family: "source-sans-pro", sans-serif;
+    }
 }
