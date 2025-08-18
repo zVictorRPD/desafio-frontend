@@ -1,14 +1,15 @@
 import { Loader2Icon, PencilIcon, TrashIcon } from "lucide-react";
 import { Button } from "../../../components/ui/Button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TablePagination, TableRow } from "../../../components/ui/Table";
-import type { IUser } from "../../../utils/interfaces/user";
+import type { IWallet } from "../../../utils/interfaces/wallet";
 import type { ITableListProps } from "../../../utils/interfaces/table";
 interface IWalletsTableProps extends ITableListProps {
-    users: IUser[];
+    wallets: IWallet[];
+    editWallet: (wallet: IWallet) => void;
 }
 
 export function WalletsTable({
-    users,
+    wallets,
     isLoading,
     totalItems,
     totalPages,
@@ -16,13 +17,15 @@ export function WalletsTable({
     pageIndex,
     nextIndex,
     changePageIndex,
+    editWallet
 }: IWalletsTableProps) {
-    function handleEditUser(user: IUser) {
-        console.log("Edit user:", user);
+
+    function handleEditWallet(wallet: IWallet) {
+        editWallet(wallet);
     }
 
-    function handleDeleteUser(userId: number) {
-        console.log("Delete user:", userId);
+    function handleDeleteWallet(walletId: number) {
+        console.log("Delete wallet:", walletId);
     }
 
     return (
@@ -40,27 +43,27 @@ export function WalletsTable({
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {users.length > 0 ? (
+                            {wallets.length > 0 ? (
                                 <>
-                                    {users.map(user => (
-                                        <TableRow key={user.id}>
-                                            <TableCell>{user.nome}</TableCell>
-                                            <TableCell>{user.sobrenome}</TableCell>
-                                            <TableCell>{user.email}</TableCell>
-                                            <TableCell>{user.valor_carteira}</TableCell>
+                                    {wallets.map(wallet => (
+                                        <TableRow key={wallet.id}>
+                                            <TableCell>{wallet.nome}</TableCell>
+                                            <TableCell>{wallet.sobrenome}</TableCell>
+                                            <TableCell>{wallet.email}</TableCell>
+                                            <TableCell>{wallet.valor_carteira}</TableCell>
                                             <TableCell>
                                                 <div className="flex justify-end gap-2">
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
-                                                        onClick={() => handleEditUser(user)}
+                                                        onClick={() => handleEditWallet(wallet)}
                                                     >
                                                         <PencilIcon size={18} />
                                                     </Button>
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
-                                                        onClick={() => handleDeleteUser(user.id)}
+                                                        onClick={() => handleDeleteWallet(wallet.id)}
                                                     >
                                                         <TrashIcon size={18} />
                                                     </Button>

@@ -2,7 +2,7 @@ import { SearchIcon } from "lucide-react";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import type { FormikProps } from "formik";
-import { filterInitialValues } from "../../../utils/forms/user";
+import { filterInitialValues } from "../../../utils/forms/wallet";
 interface IWalletsPageFilterProps {
     formik: FormikProps<typeof filterInitialValues>;
 }
@@ -31,6 +31,7 @@ export function WalletsPageFilter({ formik }: IWalletsPageFilterProps) {
                     id="email"
                     name="email"
                     label="E-mail"
+                    type="email"
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     error={formik.errors.email && formik.touched.email ? formik.errors.email : ''}

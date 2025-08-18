@@ -1,4 +1,4 @@
-export interface IUser {
+export interface IWallet {
     id: number;
     nome: string;
     sobrenome: string;
