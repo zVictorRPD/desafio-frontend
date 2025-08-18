@@ -32,16 +32,16 @@ export function WalletsTable({
 
     return (
         <>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto min-h-[524px]">
                 <div className="px-5">
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Nome</TableHead>
-                                <TableHead>Sobrenome</TableHead>
-                                <TableHead>Email</TableHead>
-                                <TableHead>Bitcoin</TableHead>
-                                <TableHead />
+                                <TableHead className="w-56">Nome</TableHead>
+                                <TableHead className="w-56">Sobrenome</TableHead>
+                                <TableHead className="w-md">Email</TableHead>
+                                <TableHead className="w-64">Bitcoin</TableHead>
+                                <TableHead className="w-32"/>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -59,6 +59,7 @@ export function WalletsTable({
                                                         variant="ghost"
                                                         size="icon"
                                                         onClick={() => handleEditWallet(wallet)}
+                                                        title="Editar carteira"
                                                     >
                                                         <PencilIcon size={18} />
                                                     </Button>
@@ -66,6 +67,7 @@ export function WalletsTable({
                                                         variant="ghost"
                                                         size="icon"
                                                         onClick={() => handleDeleteWallet(wallet.id)}
+                                                        title="Excluir carteira"
                                                     >
                                                         <TrashIcon size={18} />
                                                     </Button>

@@ -25,24 +25,24 @@ interface ITableCellProps extends React.HTMLAttributes<HTMLTableCellElement>, Re
 interface ITablePaginationProps extends ITableListProps { }
 
 export function Table({ children, ...props }: ITableProps) {
-    return (<table className="w-full" {...props}>{children}</table>)
+    return (<table {...props} className={`w-full ${props.className ? props.className : ""}`}>{children}</table>)
 }
 
 export function TableHeader({ children, ...props }: ITableSectionProps) {
     return (
-        <thead className={`h-8 border-b-2 border-neutral-300`} {...props}>{children}</thead>
+        <thead {...props} className={`h-8 border-b-2 border-neutral-300 ${props.className ? props.className : ""}`}>{children}</thead>
     )
 }
 
 export function TableBody({ children, ...props }: ITableSectionProps) {
     return (
-        <tbody className={`border-b-2 border-neutral-300`} {...props}>{children}</tbody>
+        <tbody {...props} className={`border-b-2 border-neutral-300 ${props.className ? props.className : ""}`}>{children}</tbody>
     )
 }
 
 export function TableRow({ children, ...props }: ITableRowProps) {
     return (
-        <tr className="even:bg-neutral-100 border-x-2 border-x-transparent [&:not(:has(th))]:hover:border-l-blue-600 [&:not(:has(th))]:hover:bg-neutral-50" {...props}>
+        <tr {...props} className={`even:bg-neutral-100 border-x-2 border-x-transparent [&:not(:has(th))]:hover:border-l-blue-600 [&:not(:has(th))]:hover:bg-neutral-50 ${props.className ? props.className : ""}`}>
             {children}
         </tr>
     )
@@ -50,13 +50,13 @@ export function TableRow({ children, ...props }: ITableRowProps) {
 
 export function TableHead({ children, ...props }: ITableCellProps) {
     return (
-        <th className={`text-start font-semibold p-2`} {...props}>{children}</th>
+        <th {...props} className={`text-start font-semibold p-2 ${props.className ? props.className : ""}`}>{children}</th>
     )
 }
 
 export function TableCell({ children, ...props }: ITableCellProps) {
     return (
-        <td className={`p-2`} {...props}>{children}</td>
+        <td {...props} className={`p-2 ${props.className ? props.className : ""}`}>{children}</td>
     )
 }
 

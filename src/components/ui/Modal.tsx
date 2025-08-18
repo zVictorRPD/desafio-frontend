@@ -21,7 +21,7 @@ export function Modal({ title, isOpen, onRequestClose, children }: IModalProps) 
             onRequestClose={onRequestClose}
             contentLabel={title}
             bodyOpenClassName={"overflow-hidden"}
-            className="relative w-full max-w-2xl mx-auto rounded-2xl bg-white p-5 md:p-12 shadow-xl outline-none"
+            className="relative w-full max-w-2xl mx-4 rounded-2xl bg-white p-5 md:p-12 shadow-xl outline-none"
             overlayClassName="fixed inset-0 bg-black/80 flex items-center justify-center z-50 overflow-hidden"
             shouldCloseOnOverlayClick={true}
         >
@@ -41,7 +41,7 @@ export function DeleteModal({ title, isOpen, onRequestClose, children, deleteEnt
             onRequestClose={onRequestClose}
             contentLabel={title}
             bodyOpenClassName={"overflow-hidden"}
-            className="relative w-full max-w-xl mx-auto rounded-2xl bg-white p-5 md:p-12 shadow-xl outline-none"
+            className="relative w-full max-w-xl mx-4 rounded-2xl bg-white p-5 md:p-12 shadow-xl outline-none"
             overlayClassName="fixed inset-0 bg-black/80 flex items-center justify-center z-50 overflow-hidden"
             shouldCloseOnOverlayClick={true}
         >
