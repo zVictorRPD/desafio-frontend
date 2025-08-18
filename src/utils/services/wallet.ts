@@ -1,4 +1,5 @@
 import type { filterInitialValues } from "../forms/wallet";
+import { generateCsvFileUrl } from "../functions/generateCsvFile";
 import type { PaginatedResponse } from "../interfaces/api";
 import type { IWallet } from "../interfaces/wallet";
 import { api, buildRequestParams } from "./api";
@@ -60,6 +61,19 @@ export async function deleteWallet(walletId: string) {
             method: "DELETE",
         });
         return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function exportWallet() {
+    try {
+        const response = await api<IWallet[]>(`/users`, {
+            method: "GET",
+        });
+        const headers = ["id", "nome", "sobrenome", "email", "endereco", "data_nascimento", "data_abertura", "valor_carteira", "endereco_carteira"];
+        const csvFileUrl = generateCsvFileUrl(headers, response);
+        return csvFileUrl;
     } catch (error) {
         throw error;
     }

@@ -12,6 +12,7 @@ import { EditWalletModal } from "./components/EditWalletModal";
 import type { IWallet } from "../../utils/interfaces/wallet";
 import { DeleteWalletModal } from "./components/DeleteWalletModal";
 import toast from "react-hot-toast";
+import { ExportWalletButton } from "./components/ExportWalletButton";
 
 export function ListWalletsPage() {
     const [pageIndex, setPageIndex] = useState(1);
@@ -97,11 +98,7 @@ export function ListWalletsPage() {
                 <div className="bg-white rounded-sm shadow-lg">
                     <div className="flex justify-between items-center mb-6 px-5 pt-5">
                         <h3 className="text-lg font-bold">Carteiras</h3>
-                        <Button
-                            variant="primary-outline"
-                        >
-                            Exportar CSV
-                        </Button>
+                        <ExportWalletButton />
                     </div>
                     <WalletsTable
                         wallets={walletQuery.data?.data || []}
