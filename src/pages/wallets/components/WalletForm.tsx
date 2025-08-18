@@ -1,7 +1,7 @@
 import { Input } from "../../../components/ui/Input";
 import type { FormikProps } from "formik";
 import { initialValues } from "../../../utils/forms/wallet";
-import { moneyMask, removeMask } from "../../../utils/forms/masks";
+import { moneyMask, removeMask } from "../../../utils/functions/masks";
 import { useState } from "react";
 import { fetchCurrency } from "../../../utils/services/currency";
 import { convertBRLtoBTC } from "../../../utils/functions/convertCurrency";
