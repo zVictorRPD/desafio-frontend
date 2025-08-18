@@ -53,3 +53,14 @@ export async function editWallet(wallet: IWallet) {
         throw error;
     }
 }
+
+export async function deleteWallet(walletId: string) {
+    try {
+        const response = await api<IWallet>(`/users/${walletId}`, {
+            method: "DELETE",
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

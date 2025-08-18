@@ -10,6 +10,7 @@ import { filterInitialValues, filterValidationSchema } from "../../utils/forms/w
 import { AddWalletModal } from "./components/AddWalletModal";
 import { EditWalletModal } from "./components/EditWalletModal";
 import type { IWallet } from "../../utils/interfaces/wallet";
+import { DeleteWalletModal } from "./components/DeleteWalletModal";
 
 export function ListWalletsPage() {
     const [pageIndex, setPageIndex] = useState(1);
@@ -17,6 +18,8 @@ export function ListWalletsPage() {
     const [addNewWalletModalOpen, setAddNewWalletModalOpen] = useState(false);
     const [editWalletModalOpen, setEditWalletModalOpen] = useState(false);
     const [walletToEdit, setWalletToEdit] = useState<IWallet>({} as IWallet);
+    const [deleteWalletModalOpen, setDeleteWalletModalOpen] = useState(false);
+    const [walletToDeleteId, setWalletToDeleteId] = useState<string>("");
 
     const filterForm = useFormik({
         initialValues: filterInitialValues,
@@ -55,6 +58,16 @@ export function ListWalletsPage() {
         setEditWalletModalOpen(false);
     }
 
+    function deleteWallet(walletId: string) {
+        setWalletToDeleteId(walletId);
+        setDeleteWalletModalOpen(true);
+    }
+
+    function closeDeleteWalletModal() {
+        setDeleteWalletModalOpen(false);
+        setWalletToDeleteId("");
+    }
+
     function changePageIndex(newPageIndex: number) {
         setPageIndex(newPageIndex);
     }
@@ -91,6 +104,7 @@ export function ListWalletsPage() {
                         totalItems={walletQuery.data?.items}
                         totalPages={walletQuery.data?.last || null}
                         editWallet={editWallet}
+                        deleteWallet={deleteWallet}
                     />
                 </div>
             </div>
@@ -102,6 +116,11 @@ export function ListWalletsPage() {
                 walletToEdit={walletToEdit}
                 editWalletModalOpen={editWalletModalOpen}
                 closeEditWalletModal={closeEditWalletModal}
+            />
+            <DeleteWalletModal
+                walletToDeleteId={walletToDeleteId}
+                deleteWalletModalOpen={deleteWalletModalOpen}
+                closeDeleteWalletModal={closeDeleteWalletModal}
             />
         </>
     )

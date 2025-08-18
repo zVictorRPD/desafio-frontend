@@ -85,6 +85,7 @@ export function EditWalletModal({
     }
 
     useEffect(() => {
+        if (!editWalletModalOpen || !walletToEdit) return;
         handleLoadFormData();
     }, [walletToEdit, editWalletModalOpen]);
 

@@ -1,5 +1,5 @@
 export interface IWallet {
-    id: number;
+    id: string;
     nome: string;
     sobrenome: string;
     email: string;

@@ -6,6 +6,7 @@ import type { ITableListProps } from "../../../utils/interfaces/table";
 interface IWalletsTableProps extends ITableListProps {
     wallets: IWallet[];
     editWallet: (wallet: IWallet) => void;
+    deleteWallet: (walletId: string) => void;
 }
 
 export function WalletsTable({
@@ -17,15 +18,16 @@ export function WalletsTable({
     pageIndex,
     nextIndex,
     changePageIndex,
-    editWallet
+    editWallet,
+    deleteWallet
 }: IWalletsTableProps) {
 
     function handleEditWallet(wallet: IWallet) {
         editWallet(wallet);
     }
 
-    function handleDeleteWallet(walletId: number) {
-        console.log("Delete wallet:", walletId);
+    function handleDeleteWallet(walletId: string) {
+        deleteWallet(walletId);
     }
 
     return (
