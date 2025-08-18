@@ -11,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { generateHash } from "../../../utils/functions/generateHash";
 import { editWallet } from "../../../utils/services/wallet";
 import { queryClient } from "../../../App";
+import toast from "react-hot-toast";
 
 interface IEditWalletModalProps {
     walletToEdit: IWallet;
@@ -43,11 +44,14 @@ export function EditWalletModal({
             return await editWallet(formattedWalletData);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["wallets"] })
-            closeEditWalletModal();
+            queryClient.invalidateQueries({ queryKey: ["wallets"] });
+            toast.success("Carteira editada com sucesso.");
         },
-        onError: (error) => {
-            console.error("Error creating wallet:", error);
+        onError: () => {
+            toast.error("Erro ao editar carteira, tente novamente mais tarde.");
+        }, 
+        onSettled: () => {
+            closeEditWalletModal();
         }
     });
 
@@ -72,7 +76,8 @@ export function EditWalletModal({
             });
             setValueInBTC(String(walletToEdit.valor_carteira));
         } catch (error) {
-            console.error("Error fetching currency data:", error);
+            toast.error("Erro ao carregar os dados da carteira. Tente novamente mais tarde.");
+            closeEditWalletModal();
         }
     }
 

@@ -9,6 +9,7 @@ import type { IWallet } from "../../../utils/interfaces/wallet";
 import { createWallet } from "../../../utils/services/wallet";
 import { generateHash } from "../../../utils/functions/generateHash";
 import { queryClient } from "../../../App";
+import toast from "react-hot-toast";
 
 interface IAddWalletModalProps {
     addNewWalletModalOpen: boolean;
@@ -39,10 +40,13 @@ export function AddWalletModal({
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["wallets"] })
-            closeAddNewWalletModal();
+            toast.success("Carteira criada com sucesso.");
         },
-        onError: (error) => {
-            console.error("Error creating wallet:", error);
+        onError: () => {
+            toast.error("Erro ao criar carteira, tente novamente mais tarde.");
+        },
+        onSettled: () => {
+            closeAddNewWalletModal();
         }
     });
 

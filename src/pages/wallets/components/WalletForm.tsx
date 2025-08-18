@@ -5,6 +5,7 @@ import { moneyMask, removeMask } from "../../../utils/forms/masks";
 import { useState } from "react";
 import { fetchCurrency } from "../../../utils/services/currency";
 import { convertBRLtoBTC } from "../../../utils/functions/convertCurrency";
+import toast from "react-hot-toast";
 
 interface IWalletFormProps {
     formId: string;
@@ -30,7 +31,9 @@ export function WalletForm({ formId, formik, valueInBTC, changeValueInBTC, chang
                 const totalValueInBTC = convertBRLtoBTC(value / 100, lastBTCtoBRLCurrency.BTCBRL.ask);
                 changeValueInBTC(String(totalValueInBTC));
             } catch (error) {
-                console.error("Error fetching currency data:", error);
+                toast.error("Erro ao converter valor para BTC. Tente novamente mais tarde.");
+                changeValueInBTC("0");
+                formik.setFieldValue('valor', 0);
             } finally {
                 changeIsFetchingCurrency(false);
             }

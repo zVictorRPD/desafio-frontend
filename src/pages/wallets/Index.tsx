@@ -4,13 +4,14 @@ import { WalletsPageFilter } from "./components/Filter";
 import { WalletsTable } from "./components/Table";
 import { useQuery } from "@tanstack/react-query";
 import { fetchWallets } from "../../utils/services/wallet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { filterInitialValues, filterValidationSchema } from "../../utils/forms/wallet";
 import { AddWalletModal } from "./components/AddWalletModal";
 import { EditWalletModal } from "./components/EditWalletModal";
 import type { IWallet } from "../../utils/interfaces/wallet";
 import { DeleteWalletModal } from "./components/DeleteWalletModal";
+import toast from "react-hot-toast";
 
 export function ListWalletsPage() {
     const [pageIndex, setPageIndex] = useState(1);
@@ -35,11 +36,6 @@ export function ListWalletsPage() {
         queryFn: () => fetchWallets(filterFormValues, pageIndex),
         placeholderData: (prev) => prev,
     });
-
-    if (walletQuery.error) {
-        console.log(walletQuery.error);
-    }
-
 
     function handleAddNewWallet() {
         setAddNewWalletModalOpen(true);
@@ -71,6 +67,19 @@ export function ListWalletsPage() {
     function changePageIndex(newPageIndex: number) {
         setPageIndex(newPageIndex);
     }
+
+    useEffect(() => {
+        if (walletQuery.isError) {
+            toast.error("Erro ao carregar as carteiras. Por favor, tente novamente mais tarde.");
+        }
+    }, [walletQuery.isError]);
+
+    useEffect(() => {
+        if(!filterFormValues.nome && !filterFormValues.sobrenome && !filterFormValues.email) return;
+        if (walletQuery.isSuccess && walletQuery.data?.data.length === 0) {
+            toast.error("Nenhuma carteira encontrada com os filtros aplicados. (O valor deve ser exato.)");
+        }
+    }, [walletQuery.isSuccess, walletQuery.data]);
 
     return (
         <>

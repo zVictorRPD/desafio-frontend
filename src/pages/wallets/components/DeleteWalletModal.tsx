@@ -3,6 +3,7 @@ import { Button } from "../../../components/ui/Button";
 import { DeleteModal } from "../../../components/ui/Modal";
 import { deleteWallet } from "../../../utils/services/wallet";
 import { queryClient } from "../../../App";
+import toast from "react-hot-toast";
 
 interface IDeleteWalletModalProps {
     walletToDeleteId: string;
@@ -22,11 +23,14 @@ export function DeleteWalletModal({
             return await deleteWallet(walletToDeleteId);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["wallets"] })
-            closeDeleteWalletModal();
+            toast.success("Carteira excluída com sucesso.");
+            queryClient.invalidateQueries({ queryKey: ["wallets"] });
         },
-        onError: (error) => {
-            console.error("Error creating wallet:", error);
+        onError: () => {
+            toast.error("Erro ao excluir carteira, tente novamente mais tarde.");
+        },
+        onSettled: () => {
+            closeDeleteWalletModal();
         }
     });
 
