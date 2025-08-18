@@ -44,7 +44,10 @@ export function EditWalletModal({
             return await editWallet(formattedWalletData);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["wallets"] });
+            queryClient.invalidateQueries({
+                queryKey: ["wallets"],
+                exact: false
+            });
             toast.success("Carteira editada com sucesso.");
         },
         onError: () => {

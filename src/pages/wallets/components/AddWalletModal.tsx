@@ -39,7 +39,10 @@ export function AddWalletModal({
             return await createWallet(formattedWalletData);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["wallets"] })
+            queryClient.invalidateQueries({
+                queryKey: ["wallets"],
+                exact: false
+            });
             toast.success("Carteira criada com sucesso.");
         },
         onError: () => {

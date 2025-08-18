@@ -23,8 +23,11 @@ export function DeleteWalletModal({
             return await deleteWallet(walletToDeleteId);
         },
         onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["wallets"],
+                exact: false
+            });
             toast.success("Carteira excluída com sucesso.");
-            queryClient.invalidateQueries({ queryKey: ["wallets"] });
         },
         onError: () => {
             toast.error("Erro ao excluir carteira, tente novamente mais tarde.");
