@@ -14,9 +14,7 @@ function App() {
                     <ListWalletsPage />
                 </AppContainer>
             </QueryClientProvider>
-            <Toaster
-                position="top-right"
-            />
+            <Toaster position="top-right" />
         </>
     )
 }

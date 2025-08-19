@@ -1,18 +1,13 @@
-import { PlusIcon } from "lucide-react";
-import { Button } from "../../components/ui/Button";
-import { WalletsPageFilter } from "./components/Filter";
-import { WalletsTable } from "./components/Table";
-import { useQuery } from "@tanstack/react-query";
-import { fetchWallets } from "../../utils/services/wallet";
 import { useEffect, useState } from "react";
+import { PlusIcon } from "lucide-react";
 import { useFormik } from "formik";
-import { filterInitialValues, filterValidationSchema } from "../../utils/forms/wallet";
-import { AddWalletModal } from "./components/AddWalletModal";
-import { EditWalletModal } from "./components/EditWalletModal";
-import type { IWallet } from "../../utils/interfaces/wallet";
-import { DeleteWalletModal } from "./components/DeleteWalletModal";
 import toast from "react-hot-toast";
-import { ExportWalletButton } from "./components/ExportWalletButton";
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "../../components/ui/Button";
+import { fetchWallets } from "../../utils/services/wallet";
+import { filterInitialValues, filterValidationSchema } from "../../utils/forms/wallet";
+import type { IWallet } from "../../utils/interfaces/wallet";
+import { WalletsPageFilter, AddWalletModal, EditWalletModal, DeleteWalletModal, ExportWalletButton, WalletsTable } from "./components/Index";
 
 export function ListWalletsPage() {
     const [pageIndex, setPageIndex] = useState(1);
@@ -76,7 +71,10 @@ export function ListWalletsPage() {
     }, [walletQuery.isError]);
 
     useEffect(() => {
-        if(!filterFormValues.nome && !filterFormValues.sobrenome && !filterFormValues.email) return;
+        if(walletQuery.data?.last && pageIndex > walletQuery.data.last) {
+            setPageIndex(walletQuery.data.last);
+        }
+        if (!filterFormValues.nome && !filterFormValues.sobrenome && !filterFormValues.email) return;
         if (walletQuery.isSuccess && walletQuery.data?.data.length === 0) {
             toast.error("Nenhuma carteira encontrada com os filtros aplicados. (O valor deve ser exato.)");
         }

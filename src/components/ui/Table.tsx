@@ -76,14 +76,13 @@ export function TablePagination({
         if (totalPages <= 3) {
             return Array.from({ length: totalPages }, (_, i) => i + 1);
         }
-
         if (pageIndex === 1) {
             return [1, 2, 3];
-        } else if (pageIndex === totalPages) {
+        } 
+        if (pageIndex >= totalPages) {
             return [totalPages - 2, totalPages - 1, totalPages];
-        } else {
-            return [pageIndex - 1, pageIndex, pageIndex + 1];
         }
+        return [pageIndex - 1, pageIndex, pageIndex + 1];
     };
 
     const pageNumbers = getPageNumbers();

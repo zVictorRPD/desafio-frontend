@@ -3,8 +3,8 @@ import { Button } from "../../ui/Button";
 
 export function Header() {
     return (
-        <header className="bg-white px-5">
-            <div className="container mx-auto flex justify-between items-center py-6 gap-4">
+        <header className="bg-white">
+            <div className="container px-5 mx-auto flex justify-between items-center py-6 gap-4">
                 <img src="./images/logo.svg" className="hidden md:flex w-[211px] h-[30px]" alt="Oliveira Trust" />
                 <img src="./images/small-logo.svg" className="flex md:hidden h-8 w-8" alt="Oliveira Trust" />
                 <div className="flex justify-between items-center gap-3">

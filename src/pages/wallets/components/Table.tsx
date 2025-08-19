@@ -81,14 +81,14 @@ export function WalletsTable({
                                     {isLoading ? (
                                         <TableRow className="pointer-events-none">
                                             <TableCell colSpan={5}>
-                                                <div className="flex items-center min-h-">
+                                                <div className="flex items-center">
                                                     <Loader2Icon size={40} className="animate-spin mx-auto text-primary" />
                                                 </div>
                                             </TableCell>
                                         </TableRow>
                                     ) : (
                                         <TableRow className="pointer-events-none">
-                                            <TableCell colSpan={5} className="text-center h-24 text-lg">
+                                            <TableCell colSpan={5} className="text-center text-lg">
                                                 Nenhum resultado.
                                             </TableCell>
                                         </TableRow>

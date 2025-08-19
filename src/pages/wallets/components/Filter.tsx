@@ -17,7 +17,6 @@ export function WalletsPageFilter({ formik }: IWalletsPageFilterProps) {
                     label="Nome"
                     value={formik.values.nome}
                     onChange={formik.handleChange}
-                    error={formik.errors.nome && formik.touched.nome ? formik.errors.nome : ''}
                 />
                 <Input
                     id="sobrenome"
@@ -25,7 +24,6 @@ export function WalletsPageFilter({ formik }: IWalletsPageFilterProps) {
                     label="Sobrenome"
                     value={formik.values.sobrenome}
                     onChange={formik.handleChange}
-                    error={formik.errors.sobrenome && formik.touched.sobrenome ? formik.errors.sobrenome : ''}
                 />
                 <Input
                     id="email"
@@ -34,7 +32,6 @@ export function WalletsPageFilter({ formik }: IWalletsPageFilterProps) {
                     type="email"
                     value={formik.values.email}
                     onChange={formik.handleChange}
-                    error={formik.errors.email && formik.touched.email ? formik.errors.email : ''}
                 />
                 <Button
                     variant="primary-outline"
