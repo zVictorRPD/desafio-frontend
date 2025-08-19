@@ -1,6 +1,6 @@
 import type { filterInitialValues } from "../forms/wallet";
 import { generateCsvFileUrl } from "../functions/generateCsvFile";
-import type { PaginatedResponse } from "../interfaces/api";
+import type { IPaginatedFormattedResponse, IPaginatedApiResponse } from "../interfaces/api";
 import type { IWallet } from "../interfaces/wallet";
 import { api, buildRequestParams } from "./api";
 
@@ -19,13 +19,24 @@ export async function fetchWallets(
         ...notEmptyFilters,
     });
     try {
-        const response = await api<PaginatedResponse<IWallet>>(
+        const response = await api<IPaginatedApiResponse<IWallet>>(
             `/users?${params}`,
             {
                 method: "GET",
             }
         );
-        return response;
+        const formattedResponse = {
+            data: response.data,
+            pagination: {
+                items: response.items,
+                pages: response.pages,
+                prev: response.prev,
+                index: pageIndex,
+                next: response.next,
+                last: response.last
+            },
+        } as IPaginatedFormattedResponse<IWallet>;
+        return formattedResponse;
     } catch (error) {
         throw error;
     }
@@ -71,7 +82,17 @@ export async function exportWallet() {
         const response = await api<IWallet[]>(`/users`, {
             method: "GET",
         });
-        const headers = ["id", "nome", "sobrenome", "email", "endereco", "data_nascimento", "data_abertura", "valor_carteira", "endereco_carteira"];
+        const headers = [
+            "id",
+            "nome",
+            "sobrenome",
+            "email",
+            "endereco",
+            "data_nascimento",
+            "data_abertura",
+            "valor_carteira",
+            "endereco_carteira",
+        ];
         const csvFileUrl = generateCsvFileUrl(headers, response);
         return csvFileUrl;
     } catch (error) {

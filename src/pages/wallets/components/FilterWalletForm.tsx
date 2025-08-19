@@ -7,7 +7,7 @@ interface IWalletsPageFilterProps {
     formik: FormikProps<typeof filterInitialValues>;
 }
 
-export function WalletsPageFilter({ formik }: IWalletsPageFilterProps) {
+export function FilterWalletForm({ formik }: IWalletsPageFilterProps) {
     return (
         <form id="wallets-filter-form" onSubmit={formik.handleSubmit}>
             <div className="bg-white grid md:grid-cols-[repeat(3,1fr)_140px] gap-2.5 p-5 rounded-sm shadow-lg items-center">

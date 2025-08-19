@@ -1,5 +1,13 @@
-export interface PaginatedResponse<T> {
+export interface IPaginatedApiResponse<T> extends IPagination {
     data: T[];
+}
+
+export interface IPaginatedFormattedResponse<T> {
+    data: T[];
+    pagination: IPagination & { index: number };
+}
+
+export interface IPagination {
     first: number | null;
     items: number | null;
     last: number | null;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PlusIcon } from "lucide-react";
+import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
@@ -7,7 +7,8 @@ import { Button } from "../../components/ui/Button";
 import { fetchWallets } from "../../utils/services/wallet";
 import { filterInitialValues, filterValidationSchema } from "../../utils/forms/wallet";
 import type { IWallet } from "../../utils/interfaces/wallet";
-import { WalletsPageFilter, AddWalletModal, EditWalletModal, DeleteWalletModal, ExportWalletButton, WalletsTable } from "./components/Index";
+import { FilterWalletForm, AddWalletModal, EditWalletModal, DeleteWalletModal, ExportWalletButton } from "./components/Index";
+import { DataTable } from "../../components/ui/DataTable";
 
 export function ListWalletsPage() {
     const [pageIndex, setPageIndex] = useState(1);
@@ -41,7 +42,7 @@ export function ListWalletsPage() {
         setAddNewWalletModalOpen(false);
     }
 
-    function editWallet(wallet: IWallet) {
+    function handleEditWallet(wallet: IWallet) {
         setWalletToEdit(wallet);
         setEditWalletModalOpen(true);
     }
@@ -50,7 +51,7 @@ export function ListWalletsPage() {
         setEditWalletModalOpen(false);
     }
 
-    function deleteWallet(walletId: string) {
+    function handleDeleteWallet(walletId: string) {
         setWalletToDeleteId(walletId);
         setDeleteWalletModalOpen(true);
     }
@@ -64,6 +65,36 @@ export function ListWalletsPage() {
         setPageIndex(newPageIndex);
     }
 
+    const DataTableColumns = [
+        { key: "nome", title: "Nome", className: "w-56" },
+        { key: "sobrenome", title: "Sobrenome", className: "w-56" },
+        { key: "email", title: "E-mail", className: "w-md" },
+        { key: "valor_carteira", title: "Ações", className: "w-64" },
+        {
+            key: "actions", title: "", className: "w-32",
+            render: (item: IWallet) => (
+                <div className="flex justify-end gap-2">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleEditWallet(item)}
+                        title="Editar carteira"
+                    >
+                        <PencilIcon size={18} />
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDeleteWallet(item.id)}
+                        title="Excluir carteira"
+                    >
+                        <TrashIcon size={18} />
+                    </Button>
+                </div>
+            )
+        },
+    ]
+
     useEffect(() => {
         if (walletQuery.isError) {
             toast.error("Erro ao carregar as carteiras. Por favor, tente novamente mais tarde.");
@@ -71,8 +102,8 @@ export function ListWalletsPage() {
     }, [walletQuery.isError]);
 
     useEffect(() => {
-        if(walletQuery.data?.last && pageIndex > walletQuery.data.last) {
-            setPageIndex(walletQuery.data.last);
+        if (walletQuery.data?.pagination.last && pageIndex > walletQuery.data.pagination.last) {
+            setPageIndex(walletQuery.data.pagination.last);
         }
         if (!filterFormValues.nome && !filterFormValues.sobrenome && !filterFormValues.email) return;
         if (walletQuery.isSuccess && walletQuery.data?.data.length === 0) {
@@ -92,23 +123,18 @@ export function ListWalletsPage() {
                         <PlusIcon className="block md:hidden" />
                     </Button>
                 </div>
-                <WalletsPageFilter formik={filterForm} />
+                <FilterWalletForm formik={filterForm} />
                 <div className="bg-white rounded-sm shadow-lg">
                     <div className="flex justify-between items-center mb-6 px-5 pt-5">
                         <h3 className="text-lg font-bold">Carteiras</h3>
                         <ExportWalletButton />
                     </div>
-                    <WalletsTable
-                        wallets={walletQuery.data?.data || []}
+                    <DataTable
+                        columns={DataTableColumns}
+                        data={walletQuery.data?.data || []}
                         isLoading={walletQuery.isLoading}
-                        pageIndex={pageIndex}
+                        pagination={walletQuery.data?.pagination}
                         changePageIndex={changePageIndex}
-                        nextIndex={walletQuery.data?.next}
-                        prevIndex={walletQuery.data?.prev}
-                        totalItems={walletQuery.data?.items}
-                        totalPages={walletQuery.data?.last || null}
-                        editWallet={editWallet}
-                        deleteWallet={deleteWallet}
                     />
                 </div>
             </div>
