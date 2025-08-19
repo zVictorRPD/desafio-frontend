@@ -1,91 +1,79 @@
-<p>
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQIAOtqQ5is5vwbcEn0ZahZfMxz1QIeAYtFfnLdkCXu1sqAGbnX" width="300">
- </p>
 
-## Desafio para candidatos à vaga de Desenvolvedor Front End (Jr/Pleno/Sênior).
-Olá caro desenvolvedor, nosso principal objetivo é conseguir ver a lógica implementada independente
-da sua experiência, framework ou linguagem utilizada para resolver o desafio. Queremos avaliar a sua
-capacidade em aplicar as regras de négocios na aplicação, separar as responsabilidades e ter um código
-legível para outros desenvolvedores, as instruções nesse projeto são apenas um direcional para entregar
-o desafio mas pode ficar livre para resolver da forma que achar mais eficiente. 🚀
+# Desafio Frontend Oliveira Trust
 
-Não deixe de enviar o seu teste mesmo que incompleto!
+Sistema de listagem de Carteiras de Bitcoin utilizando React, Vite, Typescript e Tailwindcss
 
-## Tecnologias a serem utilizadas:
-* Vue ou React
-* Vite, Nuxt ou Nextjs
-* TypeScript
-* Tailwindcss
+Feito por: Victor de Oliveira Martins Azevedo - victor2007azevedo@hotmail.com
 
-## Entrega:
-Para iniciar o teste, faça um fork deste repositório, crie uma branch com o seu nome completo
-e depois envie-nos o pull request. 
-Se você apenas clonar o repositório não vai conseguir fazer push e depois vai ser mais complicado
-fazer o pull request.
+### Bibliotecas instaladas
 
-Envie também seu LinkedIn ou currículo para vagas@oliveiratrust.com.br.
+- react v19.1.1
+- vite v7.1.2
+- typescript v5.8.3
+- tailwindcss v4.1.12
+- json-server v1.0.0-beta.3
+- lucide-react v0.539.0
+- react-query v5.85.3
+- formik v2.4.6
+- yup v1.7.0
+- react-modal v3.16.3
+- react-hot-toast v2.6.0
 
-## O que vamos avaliar:
-- Legibilidade do código
-- Fidelização do protótipo fornecido
-- Modularização
-- Lógica para aplicar a regra de negócio
-- Experiência do usuário
-- Implementação das APIs
+## Estrutura do projeto
 
-## Instruções para o desafio:
-Você deve implementar um aplicativo feito com Vite, Nuxt ou Nextjs utilizando uma API de usuários fornecida no próprio projeto e uma API externa de conversão de moedas.
-
-## Obrigatórios:
-- Acompanhar identidade visual do [protótipo fornecido](https://www.figma.com/proto/AO265OINopUSibxX8Dd4A6/Desafio-Front-End?page-id=0%3A1&node-id=2%3A362&viewport=314%2C48%2C0.15&scaling=contain&starting-point-node-id=2%3A362)
-- Listar os dados da API de usuários em uma tabela
-    - Deve conter todos os dados que achar relevante pela API (http://localhost:3004/users)
-    - Botões funcionais de editar(modal) e deletar registro p/ cada elemento
-- Possibilidade de adicionar novas carteiras através de um modal
-- Paginação da listagem (Você pode usar [esquemas](https://github.com/typicode/json-server#paginate) do json-server)
-- Adicionar um filtro para listagem (Você pode usar [esquemas](https://github.com/typicode/json-server#full-text-search) do json-server)
-- Conversão do saldo Bitcoin (BTC) de cada carteira para moeda escolhida. Ex.: BTC para BRL, USD, etc
-
-Pode utilizar qualquer API para conversão de moedas, mas recomendamos essa aqui: [https://docs.awesomeapi.com.br/api-de-moedas](https://docs.awesomeapi.com.br/api-de-moedas) pela facilidade e boa documentação.
-
-#### Exemplo de conversão da moeda:
-- **Parâmetros de entrada**:
-    - Moeda de origem: Bitcoin (BTC)
-    - Moeda de destino: Real (BRL)
-    - Valor para conversão ex.: BTC 0.2242509
-- **Parâmetros de saída**:
-    - Moeda de origem: Bitcoin (BTC)
-    - Moeda de destino: Real (BRL)
-    - Valor para conversão ex.: BTC 0.2242509
-    - Valor comprado em "Moeda de destino" ex.: R$ 53.054,00
-- **Critérios de aceitação**:
-    - Ao criar ou editar uma carteira, deve ser possível inserir um valor de compra tendo como resultado o valor que será adquirido na criptomoeda de destino.
-    
-#### Informações úteis da API de conversão de moedas:
-- Conversão BTC para BRL
-    - https://economia.awesomeapi.com.br/json/last/BTC-BRL
-- Moedas para conversão
-    - https://docs.awesomeapi.com.br/api-de-moedas#moedas-com-conversao-para
-- Tradução das moedas
-    - https://economia.awesomeapi.com.br/json/available/uniq
-- Combinações possíveis
-    - https://economia.awesomeapi.com.br/json/available
-- Legendas
-    - https://docs.awesomeapi.com.br/api-de-moedas#legendas
-    
-## Bônus
-- Gerenciamento de estado
-- Cobertura de testes
-- Validação dos formulários existentes
-- Hospedagem: Netlify, Vercel, AWS Amplify, outros
-
-## Configurações do projeto
-
-É necessário possuir a biblioteca json-server instalada em sua máquina para subir a [API local](https://github.com/Oliveira-Trust/desafio-frontend/blob/master/api/data.json):
-
+```markdown
+├── public/
+│   └── images/                     # Imagens utilizadas 
+└── src/                            # Arquivos globais de configuração da aplicação
+    ├── api/                        # JSON com os dados das carteiras 
+    ├── components/                 # Contém os componentes globais da aplicação 
+    │   ├── layout/app/             # Layout do sistema (header, main, footer)
+    │   └── ui/                     # Componentes da aplicação
+    ├── pages/                      # Contém as páginas da aplicação 
+    │   └── wallets/                # CRUD das carteiras
+    │       ├── components/         # Componentes relacionados a carteira (filtro, modais, tabela, formulário)
+    │       └── Index               # Página de listagem de carteiras
+    └── styles/                     # Configuração global do css
+    └── utils/                      # Funções e interfaces utilitárias para toda a aplicação  
+        ├── forms/                  # Dados iniciais e validação dos formulários
+        ├── functions/              # Funções de tratamento e manipulação de dados
+        ├── interfaces/             # Interface das variaveis
+        └── services/               # Configuração e chamadas a API
 ```
-npm i -g json-server
-```
-Acesse a [documentação](https://github.com/typicode/json-server#getting-started) do json-server para entender melhor como manipular a API.
+## Comandos de execução
 
-## Boa sorte! 🚀
+Clone o projeto
+
+```bash
+  git clone https://github.com/zVictorRPD/desafio-frontend
+```
+
+Entre no diretório do projeto
+
+```bash
+  cd desafio-frontend
+```
+
+Instale as dependências
+
+```bash
+  npm install
+```
+
+Inicie a aplicação
+
+```bash
+  npm run dev
+```
+
+Inicie a API
+
+```bash
+  npm run api
+```
+## Observações
+
+Por ser uma listagem de carteiras eu preferi utilizar "wallet" para se referir as entidades no lugar de "users" (mantive users na api para não alterar o JSON fornecido).
+
+Fiquei um pouco confuso em relação aos campos do CRUD. No protótipo do figma estavam faltando alguns dados do JSON, optei por seguir o layout proposto, gerando uma hash aleatória para o campo "endereco_carteira", e deixando os campos de "data_nascimento" e "endereco" vazios, pois na minha interpretação, eles não são relevantes para o cadastro das carteiras.
+
