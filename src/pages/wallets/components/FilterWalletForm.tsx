@@ -21,21 +21,21 @@ export function FilterWalletForm() {
         <form id="wallets-filter-form" onSubmit={formik.handleSubmit}>
             <div className="bg-white grid md:grid-cols-[repeat(3,1fr)_140px] gap-2.5 p-5 rounded-sm shadow-lg items-center">
                 <Input
-                    id="nome"
+                    id="filter-nome"
                     name="nome"
                     label="Nome"
                     value={formik.values.nome}
                     onChange={formik.handleChange}
                 />
                 <Input
-                    id="sobrenome"
+                    id="filter-sobrenome"
                     name="sobrenome"
                     label="Sobrenome"
                     value={formik.values.sobrenome}
                     onChange={formik.handleChange}
                 />
                 <Input
-                    id="email"
+                    id="filter-email"
                     name="email"
                     label="E-mail"
                     type="email"
