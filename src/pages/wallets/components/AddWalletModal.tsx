@@ -3,25 +3,24 @@ import { Modal } from "../../../components/ui/Modal";
 import { initialValues, validationSchema } from "../../../utils/forms/wallet";
 import { Button } from "../../../components/ui/Button";
 import { WalletForm } from "./WalletForm";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import type { IWallet } from "../../../utils/interfaces/wallet";
 import { createWallet } from "../../../utils/services/wallet";
 import { generateHash } from "../../../utils/functions/generateHash";
 import { queryClient } from "../../../App";
 import toast from "react-hot-toast";
+import { useWallets } from "../../../hooks/useWallets.hook";
 
-interface IAddWalletModalProps {
-    addNewWalletModalOpen: boolean;
-    closeAddNewWalletModal: () => void;
-}
-
-export function AddWalletModal({
-    addNewWalletModalOpen,
-    closeAddNewWalletModal
-}: IAddWalletModalProps) {
-    const [valueInBTC, setValueInBTC] = useState("0");
-    const [isFetchingCurrency, setIsFetchingCurrency] = useState(false);
+export function AddWalletModal() {
+    const {
+        addNewWalletModalOpen,
+        closeAddNewWalletModal,
+        convertedValueInNewCurrency,
+        changeConvertedValueInNewCurrency,
+        fetchCurrencyMutation,
+        isConvertingValue
+    } = useWallets();
 
     const mutation = useMutation({
         mutationKey: ["createWallet"],
@@ -33,7 +32,7 @@ export function AddWalletModal({
                 endereco: "",
                 data_nascimento: "",
                 data_abertura: new Date().toISOString(),
-                valor_carteira: valueInBTC ? parseFloat(valueInBTC) : 0,
+                valor_carteira: convertedValueInNewCurrency ? parseFloat(convertedValueInNewCurrency) : 0,
                 endereco_carteira: generateHash(17),
             };
             return await createWallet(formattedWalletData);
@@ -57,21 +56,17 @@ export function AddWalletModal({
         initialValues: initialValues,
         validationSchema: validationSchema,
         onSubmit: (values) => {
+            if (isConvertingValue) {
+                toast.error("Aguarde a conversão do valor antes de adicionar a carteira.");
+                return;
+            }
             mutation.mutate(values);
         },
     });
 
-    function changeValueInBTC(value: string) {
-        setValueInBTC(String(value));
-    }
-
-    function changeIsFetchingCurrency(value: boolean) {
-        setIsFetchingCurrency(value);
-    }
-
     useEffect(() => {
         if (addNewWalletModalOpen) {
-            setValueInBTC("0");
+            changeConvertedValueInNewCurrency("0");
             formik.resetForm();
         }
     }, [addNewWalletModalOpen]);
@@ -85,9 +80,6 @@ export function AddWalletModal({
             <WalletForm
                 formId="add-wallet-form"
                 formik={formik}
-                valueInBTC={valueInBTC}
-                changeValueInBTC={changeValueInBTC}
-                changeIsFetchingCurrency={changeIsFetchingCurrency}
             />
             <div className="flex justify-end mt-4">
                 <Button
@@ -100,7 +92,7 @@ export function AddWalletModal({
                     type="submit"
                     form="add-wallet-form"
                     isLoading={mutation.isPending}
-                    disabled={isFetchingCurrency}
+                    disabled={fetchCurrencyMutation.isPending || isConvertingValue}
                 >
                     Adicionar
                 </Button>

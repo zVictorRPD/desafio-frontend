@@ -3,40 +3,46 @@ import type { FormikProps } from "formik";
 import { initialValues } from "../../../utils/forms/wallet";
 import { moneyMask, removeMask } from "../../../utils/functions/masks";
 import { useState } from "react";
-import { fetchCurrency } from "../../../utils/services/currency";
-import { convertBRLtoBTC } from "../../../utils/functions/convertCurrency";
+import { useWallets } from "../../../hooks/useWallets.hook";
+import { convertQuoteToBase } from "../../../utils/functions/convertCurrency";
 import toast from "react-hot-toast";
 
 interface IWalletFormProps {
     formId: string;
     formik: FormikProps<typeof initialValues>;
-    valueInBTC: string;
-    changeValueInBTC: (value: string) => void;
-    changeIsFetchingCurrency: (value: boolean) => void;
 }
 
-export function WalletForm({ formId, formik, valueInBTC, changeValueInBTC, changeIsFetchingCurrency }: IWalletFormProps) {
+export function WalletForm({ formId, formik }: IWalletFormProps) {
+    const {
+        fetchCurrencyMutation,
+        convertedValueInNewCurrency,
+        changeConvertedValueInNewCurrency,
+        changeIsConvertingValue
+    } = useWallets();
     const [debounceTimeout, setDebounceTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
 
-    async function handleValueChange(value: number) {
+    async function handleValueChange(amount: number) {
         if (debounceTimeout) clearTimeout(debounceTimeout);
+        changeIsConvertingValue(true);
         const timeout = setTimeout(async () => {
-            try {
-                if (value === 0) {
-                    changeValueInBTC("0");
-                    return;
+            fetchCurrencyMutation.mutateAsync("BTC-BRL", {
+                onSuccess: (currencyData) => {
+                    if (!currencyData) {
+                        changeConvertedValueInNewCurrency("0");
+                        return;
+                    }
+                    const convertedValue = convertQuoteToBase(amount, currencyData.ask);
+                    changeConvertedValueInNewCurrency(String(convertedValue));
+                },
+                onError: () => {
+                    toast.error("Erro ao converter valor. Tente novamente mais tarde.");
+                    changeConvertedValueInNewCurrency("0");
+                    formik.setFieldValue('valor', 0);
+                },
+                onSettled: () => {
+                    changeIsConvertingValue(false);
                 }
-                changeIsFetchingCurrency(true);
-                const lastBTCtoBRLCurrency = await fetchCurrency("BTC-BRL");
-                const totalValueInBTC = convertBRLtoBTC(value / 100, lastBTCtoBRLCurrency.BTCBRL.ask);
-                changeValueInBTC(String(totalValueInBTC));
-            } catch (error) {
-                toast.error("Erro ao converter valor para BTC. Tente novamente mais tarde.");
-                changeValueInBTC("0");
-                formik.setFieldValue('valor', 0);
-            } finally {
-                changeIsFetchingCurrency(false);
-            }
+            });
         }, 800);
         setDebounceTimeout(timeout);
     }
@@ -83,7 +89,7 @@ export function WalletForm({ formId, formik, valueInBTC, changeValueInBTC, chang
                         error={formik.errors.valor && formik.touched.valor ? formik.errors.valor : ''}
                     />
                     <p className="font-bold text-2xl">
-                        BTC {parseFloat(valueInBTC).toFixed(12)}
+                        BTC {parseFloat(convertedValueInNewCurrency).toFixed(12)}
                     </p>
                 </div>
             </div>

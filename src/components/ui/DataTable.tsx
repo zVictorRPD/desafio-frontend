@@ -2,8 +2,9 @@ import { ChevronLeftIcon, ChevronRightIcon, Loader2Icon } from "lucide-react";
 import { Button } from "./Button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./Table";
 import type { IPagination } from "../../utils/interfaces/api";
+import { useEffect } from "react";
 
-interface IDataTableColumn<T> {
+export interface IDataTableColumn<T> {
     key: keyof T | string;
     title?: string;
     className?: string;
@@ -101,8 +102,15 @@ function TablePagination({ pagination, changePageIndex }: IDataTablePaginationPr
         return [index - 1, index, index + 1];
     };
 
-
     const pageNumbers = getPageNumbers();
+
+    useEffect(() => {
+        if (!changePageIndex || !pages) return;
+        if (index > pages) {
+            handleChangePage(pages);
+            return;
+        }
+    }, [pages]);
 
     return (
         <div className="mt-5 border-t border-neutral-100">

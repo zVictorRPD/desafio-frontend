@@ -4,23 +4,16 @@ import { DeleteModal } from "../../../components/ui/Modal";
 import { deleteWallet } from "../../../utils/services/wallet";
 import { queryClient } from "../../../App";
 import toast from "react-hot-toast";
+import { useWallets } from "../../../hooks/useWallets.hook";
 
-interface IDeleteWalletModalProps {
-    walletToDeleteId: string;
-    deleteWalletModalOpen: boolean;
-    closeDeleteWalletModal: () => void;
-}
 
-export function DeleteWalletModal({
-    walletToDeleteId,
-    deleteWalletModalOpen,
-    closeDeleteWalletModal
-}: IDeleteWalletModalProps) {
+export function DeleteWalletModal() {
+    const { deleteWalletModalOpen, closeDeleteWalletModal, walletToDelete } = useWallets();
 
     const mutation = useMutation({
         mutationKey: ["deleteWallet"],
         mutationFn: async () => {
-            return await deleteWallet(walletToDeleteId);
+            return await deleteWallet(walletToDelete.id);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({

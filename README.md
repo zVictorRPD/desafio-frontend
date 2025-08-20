@@ -29,10 +29,12 @@ Feito por: Victor de Oliveira Martins Azevedo - victor2007azevedo@hotmail.com
     ├── components/                 # Contém os componentes globais da aplicação 
     │   ├── layout/app/             # Layout do sistema (header, main, footer)
     │   └── ui/                     # Componentes da aplicação
+    ├── hooks/                      # Contém os contextos da aplicação
     ├── pages/                      # Contém as páginas da aplicação 
     │   └── wallets/                # CRUD das carteiras
-    │       ├── components/         # Componentes relacionados a carteira (filtro, modais, tabela, formulário)
-    │       └── Index               # Página de listagem de carteiras
+    │       ├── components/         # Componentes relacionados a carteira (filtro, modais, tabela, formulário e contexto)
+    │       ├── ListWallets         # Página de listagem de carteiras
+    │       └── Index               # Contém o provider e os principais componentes das carteiras
     └── styles/                     # Configuração global do css
     └── utils/                      # Funções e interfaces utilitárias para toda a aplicação  
         ├── forms/                  # Dados iniciais e validação dos formulários
