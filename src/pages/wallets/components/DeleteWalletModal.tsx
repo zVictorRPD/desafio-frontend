@@ -46,6 +46,7 @@ export function DeleteWalletModal() {
                     variant="danger"
                     onClick={handleDeleteWallet}
                     className="w-full"
+                    isLoading={mutation.isPending}
                 >
                     Excluir
                 </Button>
