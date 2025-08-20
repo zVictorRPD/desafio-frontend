@@ -5,6 +5,10 @@ Sistema de listagem de Carteiras de Bitcoin utilizando React, Vite, Typescript e
 
 Feito por: Victor de Oliveira Martins Azevedo - victor2007azevedo@hotmail.com
 
+### Hospedagem do projeto
+
+https://desafio-frontend.fly.dev/
+
 ### Bibliotecas instaladas
 
 - react v19.1.1
